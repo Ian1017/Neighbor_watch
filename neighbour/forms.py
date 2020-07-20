@@ -26,3 +26,13 @@ class PostBusinessForm(forms.ModelForm):
     class Meta:
         model = Business
         fields = ["name", "address", "image", "details", "hood"]
+
+class AddEstablishment(forms.ModelForm):
+    class Meta:
+        model = Facilities
+        fields = ["name", "location", "contact", "image"]
+
+class PostNotice(forms.ModelForm):
+    class Meta:
+        model = Notices
+        fields = ["title", "details"]
