@@ -2,17 +2,12 @@
 {% load bootstrap4 %}
 {% load static %}
 {% block content %}
-<style>
-    form.container{
-        margin-left:2%;
-    }
-</style>
 <div class="container-fluid">
     <div class="overlay">
     <form action="{% url 'post_business'%}" class="container" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {% bootstrap_form form %}
-        <button class="btn btn-outline-info btn-sm" type="submit">Add Business</button>
+        <button class="btn btn-info" type="submit">Add Business</button>
     </form>
     </div>
 </div>
