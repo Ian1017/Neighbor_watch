@@ -1,5 +1,5 @@
 {% extends 'registration/base.html' %}
-{% load crispy_forms_tags %}
+{% load bootstrap4 %}
 {% block content %}
 <div class="container-fluid">
     <div class="row">
@@ -17,7 +17,7 @@
     <div class="card-text">
       <form class="" action="/accounts/register/" method="post">
         {% csrf_token %}
-        {{form|crispy}}
+        {% bootstrap_form form %}
         <p>Already have an account?<a href="/login">Login</a></p>
         <div class="form-group">
           <input type="submit" class="btn btn-danger" value="Sign Up">
