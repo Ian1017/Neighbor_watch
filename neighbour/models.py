@@ -1,36 +1,6 @@
 from django.db import models
 import datetime as dt
-
-# Create your models here.
-#class Admin(models.Model):
- #   first_name = models.CharField(max_length =30)
-  #  last_name = models.CharField(max_length =30)
-   # email = models.EmailField()
-
-#    def __str__(self):
-#        return self.first_name
-
-#    def save_admin(self):
-#        self.save()
-
-class User(models.Model):
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
-    email = models.EmailField()
-
-    def __str__(self):
-        return self.username
-
-    def save_user(self):
-        self.save()
-
-#class Mwenyeji(models.Model):
-#    first_name = models.CharField(max_length =30)     
-#    def __str__(self):
-#        return self.name
-
-#    def save_author(self):
-#        self.save()
+from django.contrib.auth.models import User
 
 class Hood(models.Model):
     name = models.CharField(max_length=20)
@@ -84,3 +54,17 @@ class Business(models.Model):
     def search_by_name(cls, search_term):
         business = cls.objects.filter(name__icontains=search_term)
         return business
+
+
+class Notices(models.Model):
+    title = models.CharField(max_length=20)
+    post_date = models.DateTimeField(auto_now_add=True)
+    details = models.TextField()
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    hood = models.ForeignKey(Hood, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.title}'
+
+    class Meta:
+        ordering = ['-post_date'] 
