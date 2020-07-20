@@ -24,25 +24,13 @@ class User(models.Model):
     def save_user(self):
         self.save()
 
+#class Mwenyeji(models.Model):
+#    first_name = models.CharField(max_length =30)     
+#    def __str__(self):
+#        return self.name
 
-# class Author(models.Model):
-#     first_name = models.CharField(max_length =30)
-#     last_name = models.CharField(max_length =30)
-#     email = models.EmailField()
-
-#     def __str__(self):
-#         return self.author
-
-#     def save_author(self):
-#         self.save()
-
-class Mwenyeji(models.Model):
-    first_name = models.CharField(max_length =30)     
-    def __str__(self):
-        return self.name
-
-    def save_mwenyeji(self):
-        self.save()
+#    def save_author(self):
+#        self.save()
 
 class Hood(models.Model):
     name = models.CharField(max_length=20)
@@ -65,14 +53,34 @@ class Profile(models.Model):
     def __str__(self):
         return f'{self.user.username} Profile' 
 
-# class Establishment(models.Model):
-#     name = models.CharField(max_length=20)
-#     location = models.CharField(max_length=20)
-#     contact = models.CharField(max_length=30)
-#     image = models.ImageField(upload_to='facilities', blank=True, default='establishment/sample.jpg')
-#     pub_date = models.DateTimeField(auto_now_add=True)
-#     author = models.ForeignKey(User, on_delete=models.CASCADE)
-#     hood = models.ForeignKey(Hood, on_delete=models.CASCADE)
+class Establishment(models.Model):
+     name = models.CharField(max_length=20)
+     location = models.CharField(max_length=20)
+     contact = models.CharField(max_length=30)
+     image = models.ImageField(upload_to='facilities', blank=True, default='establishment/sample.jpg')
+     pub_date = models.DateTimeField(auto_now_add=True)
+     author = models.ForeignKey(User, on_delete=models.CASCADE)
+     hood = models.ForeignKey(Hood, on_delete=models.CASCADE)
 
-#     def __str__(self):
-#         return f'{self.name}'
+     def __str__(self):
+         return f'{self.name}'
+
+class Business(models.Model):
+    name = models.CharField(max_length=20)
+    address = models.CharField(max_length=20)
+    create_date = models.DateTimeField(auto_now_add=True)
+    image = models.ImageField(upload_to='biz_pic/', blank=True, default='business/bizpic.jpg')
+    details = models.TextField(max_length=500)
+    mwenyeji = models.ForeignKey(User, on_delete=models.CASCADE)
+    hood = models.ForeignKey(Hood, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.name}'
+
+    class Meta:
+        ordering = ["-create_date"]
+
+    @classmethod
+    def search_by_name(cls, search_term):
+        business = cls.objects.filter(name__icontains=search_term)
+        return business
