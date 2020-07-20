@@ -15,6 +15,13 @@ class ProfileUpdateForm(forms.ModelForm):
         model = Profile
         fields = ["contacts", "image", "bio", "hood"]
 
+class RegisterForm(UserCreationForm):
+    email = forms.EmailField()
+
+    class Meta:
+        model = User
+        fields = ["username", "email", "password1"]
+
 class PostBusinessForm(forms.ModelForm):
     class Meta:
         model = Business
