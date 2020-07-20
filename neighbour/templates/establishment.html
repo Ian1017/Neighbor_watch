@@ -1,0 +1,52 @@
+{% extends 'all-neighbour/base.html'%}
+{% load bootstrap4 %}
+{% load crispy_forms_tags %}
+{% block content%}
+<style>
+    form.c{
+        margin-left:2%;
+    }
+    .card{
+        height:90vh;
+    }
+    .card-footer{
+        height:55vh;
+    }
+    h3.h3{
+        margin-left:60%;
+    }
+</style>
+<div class="container">
+    <h3 class="h3">{{establishment|length}} establishment</h3>
+    <div class="row">
+        <div class="col-md-4">
+            <h3>Add establishment</h3>
+            <form action="" class="c" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                <button class="btn btn-sm btn-outline-info" type="submit">Add</button>
+            </form>
+        </div>
+        {% for establishment in establishments %}
+        <div class="col-md-4 mb-4 mt-3">
+            <div class="card">
+                <div class="card-header">
+                    <h3>{{establishment.name}}</h3>
+                </div>
+                <div class="card-title">
+                    <img src="{{estsblishment.image.url}}" width="100%" height="300vh" class="img-responsive mb-0" alt="facility image">
+                </div>
+                <div class="card-footer">
+                    <h3>
+                        Location: {{establishment.location}} <br>
+                        Toll-free number: {{establishment.contact}}
+                    </h3>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>There are no facilities in your area</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

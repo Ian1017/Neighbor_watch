@@ -65,3 +65,54 @@ def search_results(request):
     else:
         message = "Search for a business by its name"
         return render(request, 'search.html', {"message": message})
+
+
+@login_required(login_url='/login')
+def post_business(request):
+    current_user = request.user
+    if request.method == 'POST':
+        form = PostBusinessForm(request.POST, request.FILES)
+        if form.is_valid():
+            image = form.save(commit=False)
+            image.owner = current_user
+            image.save()
+        return redirect('/')
+    else:
+        form = PostBusinessForm(auto_id=False)
+    return render(request, 'add_business.html', {"form": form})  
+
+@login_required(login_url='/login')
+def notices(request):
+    user = Profile.objects.get(user=request.user.id)
+    alerts = Notices.objects.all().filter(hood=user.hood)
+    current_user = request.user
+    if request.method == 'POST':
+        hood = Hood.objects.get(name=user.hood)
+        form = PostNotice(request.POST, request.FILES)
+        if form.is_valid():
+            title = form.save(commit=False)
+            title.author = current_user
+            title.hood = hood
+            title.save()
+            return redirect('/notices/')
+    else:
+        form = PostNotice(auto_id=False)
+    return render(request, 'notices.html', {"notices": alerts, "form": form})
+
+@login_required(login_url='/login')
+def establishment(request):
+    user = Profile.objects.get(user=request.user.id)
+    neccesities = Establishment.objects.all().filter(hood=user.hood)
+    current_user = request.user
+    if request.method == 'POST':
+        hood = Hood.objects.get(name=user.hood)
+        form = AddEstablishment(request.POST, request.FILES)
+        if form.is_valid():
+            image = form.save(commit=False)
+            image.author = current_user
+            image.hood = hood
+            image.save()
+            return redirect('/establishment/')
+    else:
+        form = AddEstablishment(auto_id=False)
+    return render(request, 'establishment.html', {"establishment": neccesities, "form": form})        
