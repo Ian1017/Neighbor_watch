@@ -45,4 +45,14 @@ class Hood(models.Model):
 
     def __str__(self):
         return f'{self.name}'
-        
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='profile_photo', blank=True, default='profile_photo/defaultprofile.jpg')
+    bio = models.CharField(max_length=255, blank=True)
+    contacts = models.CharField(max_length=200)
+    join_date = models.DateTimeField(auto_now_add=True)
+    hood = models.ForeignKey(Hood, on_delete=models.CASCADE, blank=True, null=True)
+
+    def __str__(self):
+        return f'{self.user.username} Profile' 
